@@ -1,0 +1,61 @@
+<!doctype html>
+{% load static %}
+
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous">
+
+    <title>{% block title %}{% endblock %}|本棚アプリ</title>
+    <!--    <link rel="stylesheet" type="text/css"-->
+    <!--          href="{% static 'book/css/style.css' %}">-->
+    <link rel="stylesheet"
+          href="{% static 'book/css/style.css' %}?<?php date_default_timezone_set('Asia/Tokyo'); echo date('ymdHis',filemtime('{% static 'book/css/style.css' %}')); ?>"/>
+
+</head>
+<body>
+
+<!-- As a link -->
+<nav class="navbar navbar-expand-sm navbar-dark bg-success sticky-top">
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="{% url 'list-book' %}">書籍一覧</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="{% url 'create-book' %}">書籍登録</a>
+                </li>
+            </ul>
+        </div>
+        <div class="navbar-nav d-flex flex-row">
+            {% if request.user.is_authenticated %}
+            <a href="{% url 'accounts:logout'%}"
+               class="nav-link mx-3">ログアウト</a>
+            {% else %}
+            <a href="{% url 'accounts:login' %}" class="nav-link mx-3">ログイン</a>
+            <a href="{% url 'accounts:signup' %}"
+               class="nav-link mx-3">会員登録</a>
+            {% endif %}
+        </div>
+    </div>
+</nav>
+<div class="p-4">
+    <h1>
+        {% block h1%}
+        {% endblock h1%}
+    </h1>
+    {% block content %}
+    {% endblock content %}
+</div>
+</body>
+</html>
